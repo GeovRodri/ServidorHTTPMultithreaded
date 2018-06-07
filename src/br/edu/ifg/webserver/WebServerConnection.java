@@ -13,10 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Classe utilizada para realizaÁ„o de conex„o com servidor multi thread, 
- * realizando requisiÁ„o de arquivos. Retornando o status da requisiÁ„o, 
- * se o arquivo existe (200 ok), ou caso n„o exista, exibindo a informaÁao 
- * de que o mesmo n„o foi encontrado(404 not found).
+ * Classe utilizada para realiza√ß√£o de conex√£o com servidor multi thread, 
+ * realizando requisi√ß√£o de arquivos. Retornando o status da requisi√ß√£o, 
+ * se o arquivo existe (200 ok), ou caso n√£o exista, exibindo a informa√ßao 
+ * de que o mesmo n√£o foi encontrado(404 not found).
  */
 
 public class WebServerConnection extends Thread {
@@ -26,9 +26,9 @@ public class WebServerConnection extends Thread {
 	private Socket clientSocket;
 
 	/**
-	   * MÈtodo construtor.
-	   * … utilizado para estabelecer comunicaÁ„o com cliente.
-	   * @param clienteSocket : informaÁıes de conex„o do socket do cliente
+	   * M√©todo construtor.
+	   * √â utilizado para estabelecer comunica√ß√£o com cliente.
+	   * @param clienteSocket : informa√ß√µes de conex√£o do socket do cliente
 	   * @throws IOException
 	   * @author Raul Araujo, Geovany Santa Cruz, Raissa Pereira, Paulo Branco
 	   * @since 1.0
@@ -36,41 +36,41 @@ public class WebServerConnection extends Thread {
 	   */
 	
 	public WebServerConnection(Socket clientSocket) {
-		System.out.println("Conex√£o com cliente em " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+		System.out.println("Conex√É¬£o com cliente em " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 		try {
 			this.clientSocket = clientSocket;
-			this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); // criaÁ„o do buffer utilizado para leitura.
-			this.out = clientSocket.getOutputStream(); // criaÁ„o do buffer utilizado para envio de mensagens.
-			this.start(); // D· start na thread, chamando o mÈtodo "run()".
+			this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); // cria√ß√£o do buffer utilizado para leitura.
+			this.out = clientSocket.getOutputStream(); // cria√ß√£o da stream de envio de mensagens.
+			this.start(); // D√° start na thread, chamando o m√©todo "run()".
 		} catch (IOException e) {
-			System.err.println("Connection:" + e.getMessage()); //Caso aconteÁa algum exceÁ„o, a mensagem È exibida.
+			System.err.println("Connection:" + e.getMessage()); //Caso aconte√ßa algum exce√ß√£o, a mensagem √© exibida.
 		}
 	}
 
 	/**
-	* O metodo run(), ir· realizar a leitura do comando a ser executado
-	* e caso seja GET, o mesmo ir· pegar o nome do arquivo solicitado, 
-	* verificar se o mesmo existe, caso exista, exibir· o contÈudo do 
-	* arquivo. Se o arquivo solicitado n„o existir, o mesmo exibir· o arquivo
-	* notfound, exibindo a mensagem de que o arquivo n„o foi encontrado.
+	* O metodo run(), ir√° realizar a leitura do comando a ser executado
+	* e caso seja GET, o mesmo ir√° pegar o nome do arquivo solicitado, 
+	* verificar se o mesmo existe, caso exista, exibir√° o cont√©udo do 
+	* arquivo. Se o arquivo solicitado n√£o existir, o mesmo exibir√° o arquivo
+	* notfound, exibindo a mensagem de que o arquivo n√£o foi encontrado.
 	*
 	* @throws EOFException
 	* @throws IOException
 	*/
 	public void run() {
 		try {
-			// Verificando se j· foi tudo carregado
+			// Verificando se j√° foi tudo carregado
 			if (this.in.ready()) {
 				String commands = this.in.readLine(); // Pegando o comando a ser executado.
 				
 				if (!commands.isEmpty()) {
 					String header = "";
 					byte[] byteFiles = null;
-					String command[] = commands.split(" "); //comando recebido sendo separado por espaÁo.
+					String command[] = commands.split(" "); //comando recebido sendo separado por espa√ßo.
 					
 					if (command[0].equals("GET")) { //caso o comando seja igual a GET
 						Path path = Paths.get("WebContent" + command[1]);
-						File file = new File(path.toAbsolutePath().toString()); //Ir· no buscar no diretÛrio pelo nome enviado o arquivo.
+						File file = new File(path.toAbsolutePath().toString()); //Ir√° no buscar no diret√≥rio pelo nome enviado o arquivo.
 						
 						if (file.exists()) { // Verificando se o arquivo existe
 					        byteFiles = Files.readAllBytes(path); // tranformando o arquivo em um array de bytes
@@ -109,7 +109,7 @@ public class WebServerConnection extends Thread {
 					this.out.write(header.getBytes()); // Enviando o header
 					this.out.write(byteFiles); // Enviando o body
 					
-		        	System.out.println("Close connection"); //Exibe a mensagem que a conex„o foi fechada.
+		        	System.out.println("Close connection"); //Exibe a mensagem que a conex√£o foi fechada.
 				}
 			}
 		} catch (EOFException e) {
@@ -118,9 +118,9 @@ public class WebServerConnection extends Thread {
 			System.err.println("IO:" + e.getMessage());
 		} finally {
 			try {
-				out.close(); // Fecha conex„o do buffer de escrita
-		        in.close(); // Fecha conex„o do buffer de leitura
-		        clientSocket.close(); // Fecha conex„o do socket do cliente
+				out.close(); // Fecha conex√£o do buffer de escrita
+		        in.close(); // Fecha conex√£o do buffer de leitura
+		        clientSocket.close(); // Fecha conex√£o do socket do cliente
 			} catch (IOException e) {
 				System.err.println("close:" + e.getMessage());
 			}
