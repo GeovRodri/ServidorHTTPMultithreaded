@@ -118,8 +118,8 @@ public class WebServerConnection extends Thread {
 			System.err.println("IO:" + e.getMessage());
 		} finally {
 			try {
-				out.close(); // Fecha conexão do buffer de escrita
-		        in.close(); // Fecha conexão do buffer de leitura
+				out.close(); // Fecha conexão da stre de escrita
+		        in.close(); // Fecha conexão da buffer de leitura
 		        clientSocket.close(); // Fecha conexão do socket do cliente
 			} catch (IOException e) {
 				System.err.println("close:" + e.getMessage());
